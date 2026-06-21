@@ -4,15 +4,21 @@ import 'package:task_tracker_tcl/core/data/model/task_model.dart';
 
 abstract class LocalSource {
   Future<List<TaskModel>> getCachedTasks();
-  Future<void>            cacheTasks(List<TaskModel> tasks);
-  Future<void>            clearCache();
-  Future<bool>            hasCachedTasks();
+  Future<void> cacheTasks(List<TaskModel> tasks);
+  Future<void> clearCache();
+  Future<bool> hasCachedTasks();
+  Future<void> cacheCounts({
+    required int total,
+    required int done,
+    required int pending,
+  });
+  Future<Map<String, int>> getCachedCounts();
 }
 
 class TaskLocalDatasource implements LocalSource {
-  static const _cacheKey        = 'cached_tasks';
-  static const _cacheTimeKey    = 'cached_tasks_time';
-  static const _cacheDuration   = Duration(minutes: 10);
+  static const _cacheKey = 'cached_tasks';
+  static const _cacheTimeKey = 'cached_tasks_time';
+  static const _cacheDuration = Duration(minutes: 10);
 
   final SharedPreferences _prefs;
 
@@ -39,15 +45,9 @@ class TaskLocalDatasource implements LocalSource {
   }
 
   @override
-  Future<void> clearCache() async {
-    await _prefs.remove(_cacheKey);
-    await _prefs.remove(_cacheTimeKey);
-  }
-
-  @override
   Future<bool> hasCachedTasks() async {
-    final raw      = _prefs.getString(_cacheKey);
-    final timeRaw  = _prefs.getString(_cacheTimeKey);
+    final raw = _prefs.getString(_cacheKey);
+    final timeRaw = _prefs.getString(_cacheTimeKey);
     if (raw == null || timeRaw == null) return false;
 
     final cachedAt = DateTime.tryParse(timeRaw);
@@ -61,5 +61,44 @@ class TaskLocalDatasource implements LocalSource {
     }
 
     return true;
+  }
+
+  static const _countKey = 'cached_counts';
+
+  @override
+  Future<void> cacheCounts({
+    required int total,
+    required int done,
+    required int pending,
+  }) async {
+    final encoded = jsonEncode({
+      'total': total,
+      'done': done,
+      'pending': pending,
+    });
+    await _prefs.setString(_countKey, encoded);
+  }
+
+  @override
+  Future<Map<String, int>> getCachedCounts() async {
+    try {
+      final raw = _prefs.getString(_countKey);
+      if (raw == null) return {'total': 0, 'done': 0, 'pending': 0};
+      final map = jsonDecode(raw) as Map<String, dynamic>;
+      return {
+        'total': map['total'] as int,
+        'done': map['done'] as int,
+        'pending': map['pending'] as int,
+      };
+    } catch (_) {
+      return {'total': 0, 'done': 0, 'pending': 0};
+    }
+  }
+
+  @override
+  Future<void> clearCache() async {
+    await _prefs.remove(_cacheKey);
+    await _prefs.remove(_cacheTimeKey);
+    await _prefs.remove(_countKey);
   }
 }

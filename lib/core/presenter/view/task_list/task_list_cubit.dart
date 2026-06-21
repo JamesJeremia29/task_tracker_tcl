@@ -12,36 +12,54 @@ class TaskListCubit extends Cubit<TaskListState> {
   TaskListCubit(this.repository) : super(TaskListInitial());
 
   Future<void> loadTasks() async {
-    emit(TaskListLoading());
+  emit(TaskListLoading());
+  try {
+
+    final tasks = await repository.getTasks(page: 0);
+
+    if (tasks.isEmpty) {
+      emit(TaskListEmpty());
+      return;
+    }
+
+    int totalCount   = tasks.length;
+    int doneCount    = tasks.where((t) => t.isDone).length;
+    int pendingCount = tasks.where((t) => !t.isDone).length;
+
     try {
-      final results = await Future.wait([
-        repository.getTasks(page: 0),
+      final counts = await Future.wait([
         repository.getTasksCount(),
         repository.getTasksCountByStatus('done'),
         repository.getTasksCountByStatus('pending'),
       ]);
+      totalCount   = counts[0];
+      doneCount    = counts[1];
+      pendingCount = counts[2];
 
-      final tasks = results[0] as List<TaskModel>;
-      final totalCount = results[1] as int;
-      final doneCount = results[2] as int;
-      final pendingCount = results[3] as int;
-
-      if (tasks.isEmpty) {
-        emit(TaskListEmpty());
-      } else {
-        emit(TaskListLoaded(
-          tasks,
-          hasMore: tasks.length >= _pageSize,
-          currentPage: 0,
-          totalCount: totalCount,
-          doneCount: doneCount,
-          pendingCount: pendingCount,
-        ));
-      }
-    } catch (e) {
-      emit(TaskListError(ErrorConst.parse(e)));
+      await repository.cacheCounts(
+        total:   totalCount,
+        done:    doneCount,
+        pending: pendingCount,
+      );
+    } catch (_) {
+      final cached = await repository.getCachedCounts();
+      totalCount   = cached['total']   ?? tasks.length;
+      doneCount    = cached['done']    ?? tasks.where((t) => t.isDone).length;
+      pendingCount = cached['pending'] ?? tasks.where((t) => !t.isDone).length;
     }
+
+    emit(TaskListLoaded(
+      tasks,
+      hasMore:      tasks.length >= _pageSize,
+      currentPage:  0,
+      totalCount:   totalCount,
+      doneCount:    doneCount,
+      pendingCount: pendingCount,
+    ));
+  } catch (e) {
+    emit(TaskListError(ErrorConst.parse(e)));
   }
+}
 
   Future<void> loadMore() async {
     final current = state;
@@ -59,9 +77,9 @@ class TaskListCubit extends Cubit<TaskListState> {
         allTasks,
         hasMore: newTasks.length >= _pageSize,
         currentPage: nextPage,
-        totalCount: current.totalCount, // ← keep
-        doneCount: current.doneCount, // ← keep
-        pendingCount: current.pendingCount, // ← keep
+        totalCount: current.totalCount,
+        doneCount: current.doneCount,
+        pendingCount: current.pendingCount,
       ));
     } catch (e) {
       emit(TaskListLoaded(
@@ -80,7 +98,7 @@ class TaskListCubit extends Cubit<TaskListState> {
     try {
       final newStatus = currentStatus == 'done' ? 'pending' : 'done';
       await repository.updateTaskStatus(id, UpdateTask(status: newStatus));
-      await loadTasks(); // refresh from page 0
+      await loadTasks();
     } catch (e) {
       emit(TaskListError(ErrorConst.parse(e)));
     }

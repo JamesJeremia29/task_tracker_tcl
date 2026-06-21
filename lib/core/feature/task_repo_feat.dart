@@ -6,7 +6,13 @@ abstract class TaskRepository {
   Future<List<TaskModel>> getTasks({int page = 0});
   Future<int>             getTasksCount(); 
   Future<int> getTasksCountByStatus(String status);
+  Future<void>            cacheCounts({  
+    required int total,
+    required int done,
+    required int pending,
+  });
   Future<TaskModel>       getTaskById(String id);
   Future<TaskModel>       createTask(PostTask request);
   Future<TaskModel>       updateTaskStatus(String id, UpdateTask request);
+  Future<Map<String, int>> getCachedCounts();
 }

@@ -17,7 +17,6 @@ class TaskRepoProd implements TaskRepository {
     Connectivity? connectivity,
   }) : _connectivity = connectivity ?? Connectivity();
 
-  // ─── Check internet ────────────────────────────────────────
   Future<bool> get _isOnline async {
     final result = await _connectivity.checkConnectivity();
     return result != ConnectivityResult.none;
@@ -51,9 +50,8 @@ class TaskRepoProd implements TaskRepository {
     if (await _isOnline) {
       return remote.getTasksCount();
     }
-    // Offline — count from cache
-    final cached = await local.getCachedTasks();
-    return cached.length;
+    final counts = await local.getCachedCounts();
+    return counts['total'] ?? 0;
   }
 
   @override
@@ -61,8 +59,26 @@ class TaskRepoProd implements TaskRepository {
     if (await _isOnline) {
       return remote.getTasksCountByStatus(status);
     }
-    final cached = await local.getCachedTasks();
-    return cached.where((t) => t.status == status).length;
+    final counts = await local.getCachedCounts();
+    return counts[status] ?? 0;
+  }
+
+  @override
+  Future<void> cacheCounts({
+    required int total,
+    required int done,
+    required int pending,
+  }) async {
+    await local.cacheCounts(
+      total: total,
+      done: done,
+      pending: pending,
+    );
+  }
+
+  @override
+  Future<Map<String, int>> getCachedCounts() async {
+    return local.getCachedCounts();
   }
 
   @override
