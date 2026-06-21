@@ -3,7 +3,6 @@ import 'package:task_tracker_tcl/core/feature/task_repo_feat.dart';
 import 'package:task_tracker_tcl/utils/constant/error_const.dart';
 import 'package:task_tracker_tcl/core/data/model/update_task.dart';
 import 'task_list_state.dart';
-import 'package:task_tracker_tcl/core/data/model/task_model.dart';
 
 class TaskListCubit extends Cubit<TaskListState> {
   final TaskRepository repository;
