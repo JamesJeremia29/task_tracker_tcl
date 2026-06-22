@@ -1,18 +1,19 @@
 # Task Tracker App
 
-Aplikasi Flutter sederhana untuk mengelola task sehari-hari. Dibangun dengan Flutter + Supabase sebagai backend.
+Aplikasi Flutter untuk tracking task. 
+Dibuat menggunakan Flutter + Supabase sebagai backend.
 
 ---
 
 ## Cara Menjalankan Project
 
-### Prasyarat
-- Flutter SDK 3.22+
+### Project Requirements
+- Flutter SDK 3.44.2+
 - Android Studio / VS Code
 - Device atau Emulator (Android/iOS)
 - Koneksi internet (untuk pertama kali load data)
 
-### Langkah-langkah
+### Step by Step Guide
 
 1. **Clone repository**
 ```bash
@@ -31,7 +32,7 @@ Aplikasi Flutter sederhana untuk mengelola task sehari-hari. Dibangun dengan Flu
 ```
 
 > Supabase URL dan anon key sudah tersedia di dalam project untuk kemudahan evaluasi.
-> Pada kondisi production, keys tersebut akan disimpan di environment variable.
+> Untuk production, keys akan disimpan di environment variable.
 
 ---
 
@@ -64,29 +65,27 @@ Lapisan ini tidak tahu bagaimana data diambil, hanya mendefinisikan apa yang per
 
 Project ini menggunakan **Cubit** dari package `flutter_bloc`.
 
-### Cara kerja Cubit
-
 ### State yang digunakan per fitur
 
 **Task List**
 - `TaskListInitial` → state awal
-- `TaskListLoading` → sedang fetch data dari Supabase atau cache
+- `TaskListLoading` → proses fetch data dari Supabase atau cache
 - `TaskListLoaded` → data berhasil dimuat, berisi tasks, totalCount, doneCount, pendingCount, hasMore, currentPage
-- `TaskListLoadingMore` → sedang load halaman berikutnya (pagination)
+- `TaskListLoadingMore` → untuk load data berikutnya (infinite scroll/ pagination)
 - `TaskListEmpty` → tidak ada task sama sekali
 - `TaskListError` → terjadi error, tidak ada data sama sekali
 
 **Add Task**
 - `AddTaskInitial` → state awal
-- `AddTaskLoading` → sedang kirim data ke Supabase
+- `AddTaskLoading` → proses kirim data ke Supabase
 - `AddTaskSuccess` → task berhasil ditambahkan
 - `AddTaskError` → gagal menambahkan task
 
 **Task Detail**
 - `TaskDetailInitial` → state awal
-- `TaskDetailLoading` → sedang fetch detail task
+- `TaskDetailLoading` → proses fetch detail task
 - `TaskDetailLoaded` → detail berhasil dimuat
-- `TaskDetailUpdating` → sedang update status, tombol loading tapi data tetap tampil
+- `TaskDetailUpdating` → proses update status, tombol loading tapi data tetap tampil
 - `TaskDetailError` → terjadi error saat fetch atau update
 
 ---
@@ -95,10 +94,10 @@ Project ini menggunakan **Cubit** dari package `flutter_bloc`.
 
 ### Mengapa Cubit?
 
-**Cubit** dipilih karena:
+**Cubit** kelebihan:
 - Lebih sederhana dari BLoC — tidak perlu mendefinisikan Events terpisah
-- Tetap eksplisit — setiap aksi user memanggil method yang jelas di Cubit
-- Mudah di-test — state bisa diverifikasi langsung dengan `bloc_test`
+- Eksplisit — setiap input user memanggil method yang jelas di Cubit
+- Gampang di-test — state bisa diverifikasi langsung dengan `bloc_test`
 - Scalable — jika kompleksitas bertambah, Cubit bisa di-upgrade ke BLoC tanpa ubah struktur
 
 Cubit cocok untuk project ini karena alur datanya straightforward:
@@ -108,19 +107,19 @@ user action → async call ke repository → emit state baru.
 
 - **Separation of concerns** — setiap lapisan punya tanggung jawab yang jelas
 - **Testable** — repository dan cubit bisa di-test tanpa UI dan tanpa Supabase nyata
-- **Maintainable** — jika ingin ganti backend, cukup ganti implementasi di `source/` tanpa sentuh UI
+- **Maintainable** — kalau ganti backend, cukup ganti implementasi di `source/` tanpa sentuh UI
 - **Scalable** — fitur baru tinggal tambah folder di `feature/` dan `view/`
 
 ### Mengapa Supabase?
 
 - Auto-generate REST API (GET/POST/PATCH) dari tabel yang dibuat
-- Tidak perlu tulis backend sendiri, fokus bisa di Flutter
+- Tidak perlu buat backend sendiri, fokus bisa di Flutter
 - Mendukung Row Level Security untuk kebutuhan production
 - Free tier cukup untuk kebutuhan technical test ini
 
 ---
 
-## Bonus yang Diimplementasikan
+## Bonus Point yang Diimplementasikan
 
 | Fitur | Implementasi |
 |---|---|
