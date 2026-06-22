@@ -1,18 +1,18 @@
 class ErrorConst {
   ErrorConst._();
 
-  // Generic
+  //Generic
   static const String unknown        = 'Something went wrong. Please try again.';
   static const String noInternet     = 'No internet connection. Check your network.';
   static const String timeout        = 'Request timed out. Please try again.';
 
-  // Task-specific
+  //Task-specific
   static const String loadTasksFailed   = 'Failed to load tasks.';
   static const String addTaskFailed     = 'Failed to add task. Please try again.';
   static const String updateTaskFailed  = 'Failed to update task status.';
   static const String taskNotFound      = 'Task not found.';
 
-  // Supabase / API
+  //Supabase / API
   static const String serverError      = 'Server error. Please try again later.';
   static const String unauthorized     = 'Unauthorized access.';
 

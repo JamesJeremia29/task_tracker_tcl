@@ -1,4 +1,3 @@
-/// Request model for PATCH /tasks/:id
 class UpdateTask {
   final String status;
 

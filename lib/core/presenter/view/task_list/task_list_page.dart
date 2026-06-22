@@ -55,7 +55,7 @@ class _TaskListViewState extends State<_TaskListView> {
   void _onScroll() {
     final maxScroll = _scrollController.position.maxScrollExtent;
     final currentScroll = _scrollController.position.pixels;
-    const threshold = 200.0; // px from bottom to trigger load
+    const threshold = 200.0; //trigger load
 
     if (currentScroll >= maxScroll - threshold) {
       context.read<TaskListCubit>().loadMore();
@@ -152,7 +152,7 @@ class _TaskListViewState extends State<_TaskListView> {
                     ),
                     itemCount: tasks.length + (hasMore ? 1 : 0),
                     itemBuilder: (_, i) {
-                      // Last item → loading spinner or end indicator
+                      //loading spinner or end indicator for last item
                       if (i == tasks.length) {
                         return Padding(
                           padding: const EdgeInsets.symmetric(
@@ -204,7 +204,7 @@ class _TaskListViewState extends State<_TaskListView> {
   }
 }
 
-// ─── Summary Bar ───────────────────────────────────────────────
+//Summary Bar
 class _SummaryBar extends StatelessWidget {
   final int total, done, pending;
   const _SummaryBar({

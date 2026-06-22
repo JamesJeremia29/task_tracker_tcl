@@ -26,7 +26,7 @@ class TaskListLoaded extends TaskListState {
     this.hasMore      = true,
     this.currentPage  = 0,
     this.totalCount   = 0,
-    this.doneCount    = 0,   // ← from DB
-    this.pendingCount = 0,   // ← from DB
+    this.doneCount    = 0,
+    this.pendingCount = 0,
   });
 }

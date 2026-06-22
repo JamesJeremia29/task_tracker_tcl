@@ -39,19 +39,18 @@ class TaskModel extends Equatable {
     'created_at':  createdAt.toIso8601String(),
   };
 
-  // Used for POST (no id/created_at yet)
+  //Used for POST
   Map<String, dynamic> toInsertJson() => {
     'title':       title,
     'description': description,
     'status':      'pending',
   };
 
-  // Used for PATCH (only update status)
+  //Used for PATCH
   Map<String, dynamic> toUpdateJson() => {
     'status': status,
   };
 
-  // ─── CopyWith ──────────────────────────────────────────────
   TaskModel copyWith({
     String? id,
     String? title,

@@ -9,10 +9,10 @@ import 'package:task_tracker_tcl/core/presenter/view/task_list/task_list_page.da
 import 'package:task_tracker_tcl/application/app_theme.dart';
 import 'dart:async';
 
-// Mock repository
+//Mock repository
 class MockTaskRepository extends Mock implements TaskRepository {}
 
-// Fake models for mocktail fallback
+//Fake models for mocktail fallback
 class FakeCreateTaskRequest extends Fake implements PostTask {}
 
 class FakeUpdateTaskRequest extends Fake implements UpdateTask {}
@@ -20,7 +20,7 @@ class FakeUpdateTaskRequest extends Fake implements UpdateTask {}
 void main() {
   late MockTaskRepository mockRepository;
 
-  // Sample tasks
+  //Sample tasks
   final tTask = TaskModel(
     id: '1',
     title: 'Clean the room',
@@ -38,7 +38,7 @@ void main() {
     mockRepository = MockTaskRepository();
   });
 
-  // Helper to wrap widget with MaterialApp + theme
+  //Helper to wrap widget with MaterialApp and theme
   Widget buildApp(MockTaskRepository repo) {
     return MaterialApp(
       theme: AppTheme.light,
@@ -106,7 +106,7 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.text('2'), findsOneWidget); // total
-      expect(find.text('1'), findsWidgets); // done + pending each = 1
+      expect(find.text('1'), findsWidgets); // done and pending
     });
   });
 }

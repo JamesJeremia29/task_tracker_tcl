@@ -87,7 +87,7 @@ class _AddTaskViewState extends State<_AddTaskView> {
                 children: [
                   const SizedBox(height: SizeConst.sm),
 
-                  // Page header
+                  //Page header
                   Text('New Task',
                       style: TextMod.h1(color: ColorConst.forestGreen)),
                   const SizedBox(height: SizeConst.xs),
@@ -98,7 +98,7 @@ class _AddTaskViewState extends State<_AddTaskView> {
 
                   const SizedBox(height: SizeConst.xl),
 
-                  // Title field
+                  //Title field
                   TaskFormField(
                     label:           PromptConst.titleLabel,
                     hint:            PromptConst.titleHint,
@@ -122,7 +122,7 @@ class _AddTaskViewState extends State<_AddTaskView> {
 
                   const SizedBox(height: SizeConst.lg),
 
-                  // Description field
+                  //Description field
                   TaskFormField(
                     label:           PromptConst.descriptionLabel,
                     hint:            PromptConst.descriptionHint,
@@ -140,7 +140,7 @@ class _AddTaskViewState extends State<_AddTaskView> {
 
                   const SizedBox(height: SizeConst.xxl),
 
-                  // Submit button
+                  //Submit button
                   BlocBuilder<AddTaskCubit, AddTaskState>(
                     builder: (context, state) => AppButton(
                       label:     PromptConst.save,

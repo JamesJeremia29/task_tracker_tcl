@@ -79,7 +79,7 @@ class _TaskDetailView extends StatelessWidget {
       );
     }
 
-    //Both Loaded and Updating carry a task — extract it
+    //Both Loaded and Updating carry a task
     final TaskModel? task = switch (state) {
       TaskDetailLoaded()   => state.task,
       TaskDetailUpdating() => state.task,
