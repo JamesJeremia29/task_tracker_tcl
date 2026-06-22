@@ -79,7 +79,7 @@ class _TaskDetailView extends StatelessWidget {
       );
     }
 
-    // Both Loaded and Updating carry a task — extract it
+    //Both Loaded and Updating carry a task — extract it
     final TaskModel? task = switch (state) {
       TaskDetailLoaded()   => state.task,
       TaskDetailUpdating() => state.task,
@@ -98,7 +98,7 @@ class _TaskDetailView extends StatelessWidget {
           children: [
             const SizedBox(height: SizeConst.sm),
 
-            // ─── Status + Date row ──────────────────────────
+            //Status & Date
             Row(
               children: [
                 StatusBadge(isDone: task.isDone, large: true),
@@ -112,17 +112,17 @@ class _TaskDetailView extends StatelessWidget {
 
             const SizedBox(height: SizeConst.lg),
 
-            // ─── Title ──────────────────────────────────────
+            //Title
             Text('Title',
                 style: TextMod.label(color: ColorConst.forestGreen)),
             const SizedBox(height: SizeConst.xs),
             Text(task.title, style: TextMod.h2()),
 
             const SizedBox(height: SizeConst.lg),
-            Divider(color: ColorConst.mintGreen),
+            const Divider(color: ColorConst.mintGreen),
             const SizedBox(height: SizeConst.lg),
 
-            // ─── Description ────────────────────────────────
+            //Description
             Text('Description',
                 style: TextMod.label(color: ColorConst.forestGreen)),
             const SizedBox(height: SizeConst.sm),
@@ -148,7 +148,7 @@ class _TaskDetailView extends StatelessWidget {
 
             const SizedBox(height: SizeConst.xxl),
 
-            // ─── Toggle button ──────────────────────────────
+            //Toggle Status Button
             AppButton(
               label:     task.isDone
                   ? PromptConst.markPending

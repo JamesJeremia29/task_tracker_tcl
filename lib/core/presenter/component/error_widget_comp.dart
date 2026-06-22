@@ -26,7 +26,7 @@ class AppErrorWidget extends StatelessWidget {
                 color: ColorConst.error.withValues(alpha: 0.1),
                 shape: BoxShape.circle,
               ),
-              child: Icon(
+              child: const Icon(
                 Icons.wifi_off_rounded,
                 color: ColorConst.error,
                 size: 40,

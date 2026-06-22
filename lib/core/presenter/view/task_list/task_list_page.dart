@@ -13,6 +13,7 @@ import '../task_detail/task_detail_page.dart';
 import 'task_list_cubit.dart';
 import 'task_list_state.dart';
 import 'package:task_tracker_tcl/core/feature/task_repo_feat.dart';
+import 'package:task_tracker_tcl/core/data/model/task_model.dart';
 
 class TaskListPage extends StatelessWidget {
   final TaskRepository repository;
@@ -111,29 +112,33 @@ class _TaskListViewState extends State<_TaskListView> {
             );
           }
 
-          final tasks = switch (state) {
-            TaskListLoaded() => (state as TaskListLoaded).tasks,
-            TaskListLoadingMore() => (state as TaskListLoadingMore).tasks,
-            _ => [],
-          };
+          var tasks = <TaskModel>[];
+          var hasMore = true;
+          var isLoadingMore = false;
+          var totalCount = 0;
+          var doneCount = 0;
+          var pendingCount = 0;
 
-          final hasMore = state is TaskListLoaded ? state.hasMore : true;
-          final isLoadingMore = state is TaskListLoadingMore;
+          if (state is TaskListLoaded) {
+            tasks = state.tasks;
+            hasMore = state.hasMore;
+            totalCount = state.totalCount;
+            doneCount = state.doneCount;
+            pendingCount = state.pendingCount;
+          } else if (state is TaskListLoadingMore) {
+            tasks = state.tasks;
+            isLoadingMore = true;
+            hasMore = true;
+          }
 
           if (tasks.isEmpty) return const SizedBox();
 
           return Column(
             children: [
               _SummaryBar(
-                total: state is TaskListLoaded
-                    ? (state as TaskListLoaded).totalCount
-                    : 0,
-                done: state is TaskListLoaded
-                    ? (state as TaskListLoaded).doneCount
-                    : 0,
-                pending: state is TaskListLoaded
-                    ? (state as TaskListLoaded).pendingCount
-                    : 0,
+                total: totalCount,
+                done: doneCount,
+                pending: pendingCount,
               ),
               Expanded(
                 child: RefreshIndicator(
