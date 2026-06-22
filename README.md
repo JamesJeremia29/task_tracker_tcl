@@ -17,8 +17,8 @@ Dibuat menggunakan Flutter + Supabase sebagai backend.
 
 1. **Clone repository**
 ```bash
-   git clone https://github.com/USERNAME/REPO_NAME.git
-   cd REPO_NAME
+   git clone https://github.com/JamesJeremia29/task_tracker_tcl.git
+   cd task_tracker_tcl
 ```
 
 2. **Install dependencies**
