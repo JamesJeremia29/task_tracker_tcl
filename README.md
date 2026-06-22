@@ -59,8 +59,6 @@ Lapisan ini tidak tahu bagaimana data diambil, hanya mendefinisikan apa yang per
 - Setiap halaman punya folder sendiri berisi `page`, `cubit`, dan `state`
 - `component/` berisi widget yang dipakai ulang di banyak tempat
 
----
-
 ## State Management
 
 Project ini menggunakan **Cubit** dari package `flutter_bloc`.
