@@ -40,14 +40,14 @@ Dibuat menggunakan Flutter + Supabase sebagai backend.
 
 Project ini menggunakan **Layered Architecture** dengan 3 lapisan utama:
 
-### Penjelasan tiap lapisan
+### Penjelasan
 
-**`core/feature/`** — Berisi abstract class `TaskRepository` yang mendefinisikan kontrak:
+**`core/feature/`** — Berisi abstract class `TaskRepository` yaitu:
 apa saja operasi yang tersedia (getTasks, createTask, updateTaskStatus, getTasksCount, dll).
 Lapisan ini tidak tahu bagaimana data diambil, hanya mendefinisikan apa yang perlu ada.
 
 **`core/data/source/`** — Dua sumber data:
-- `RemoteSource` → berkomunikasi langsung dengan Supabase (GET, POST, PATCH)
+- `RemoteSource` → komunikasi langsung dengan Supabase (GET, POST, PATCH)
 - `LocalSource` → menyimpan dan membaca cache dari device menggunakan SharedPreferences
 
 **`core/data/repositories/`** — `TaskRepoProd` mengatur logika:
