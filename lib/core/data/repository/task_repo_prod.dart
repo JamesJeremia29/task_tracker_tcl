@@ -19,7 +19,7 @@ class TaskRepoProd implements TaskRepository {
 
   Future<bool> get _isOnline async {
     final result = await _connectivity.checkConnectivity();
-    return result != ConnectivityResult.none;
+    return result.isNotEmpty && !result.contains(ConnectivityResult.none);
   }
 
   @override

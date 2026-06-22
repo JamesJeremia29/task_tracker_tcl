@@ -46,7 +46,7 @@ class TaskFormField extends StatelessWidget {
           },
           decoration: InputDecoration(
             hintText:     hint,
-            hintStyle:    TextMod.body(color: ColorConst.sageGreen.withOpacity(0.6)),
+            hintStyle:    TextMod.body(color: ColorConst.sageGreen.withValues(alpha: 0.6)),
             counterText:  '',
           ),
         ),

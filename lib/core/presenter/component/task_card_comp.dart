@@ -31,12 +31,12 @@ class TaskCard extends StatelessWidget {
               borderRadius: BorderRadius.circular(SizeConst.radiusLarge),
               border: Border.all(
                 color: task.isDone
-                    ? ColorConst.done.withOpacity(0.2)
-                    : ColorConst.mintGreen.withOpacity(0.5),
+                    ? ColorConst.done.withValues(alpha: 0.2)
+                    : ColorConst.mintGreen.withValues(alpha: 0.5),
               ),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.04),
+                  color: Colors.black.withValues(alpha: 0.04),
                   blurRadius: 8,
                   offset: const Offset(0, 2),
                 ),
